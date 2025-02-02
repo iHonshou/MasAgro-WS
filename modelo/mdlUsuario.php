@@ -3,14 +3,13 @@ include_once 'Conexion.php';  // Clase de conexión
 include_once 'popos/usuario.php';  // Incluye la clase de Usuario
 
 class mdlUsuario {
-    // Función para consultar un usuario por nombre de usuario y contraseña
-    function consultarUsuario($usuario, $contrasenia)
+    function consultarUsuario($rfc, $contrasenia)
     {
-        $sql = 'SELECT * FROM usuarios WHERE usuario = :usuario AND contrasena = :contrasenia;';
+        $sql = 'SELECT * FROM usuarios WHERE rfc = :rfc AND contrasenia = :contrasenia;';
         $cnx = new Conexion();
         $conexion = $cnx->conectar();
         $stmt = $conexion->prepare($sql);
-        $stmt->bindValue(':usuario', $usuario);
+        $stmt->bindValue(':rfc', $rfc);
         $stmt->bindValue(':contrasenia', $contrasenia);
         $stmt->execute();
 

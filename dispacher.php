@@ -29,7 +29,7 @@ switch ($requestMethod) {
         } else {
             $respuesta = json_encode(
                 $ctrlUsuarios->validarUsuario(
-                    $objAnonimo->idUsuario,
+                    $objAnonimo->rfc,
                     $objAnonimo->contrasenia
                 )
             );
