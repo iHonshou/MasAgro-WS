@@ -13,10 +13,23 @@ class mdlUsuario {
         $stmt->bindValue(':contrasenia', $contrasenia);
         $stmt->execute();
 
-        $rs = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $cnx->desconectar();
 
-        return $rs;
+        if ($row) {
+            return new Usuario(
+                $row['rfc'],
+                $row['contrasenia'],
+                $row['apellidoP'],
+                $row['apellidoM'],
+                $row['nombres'],
+                $row['razonSocial'],
+                $row['e_mail'],
+                $row['telefono'],
+                $row['idRol']
+            );
+        }
+        return null;
     }
     
     // Función para consultar todos los usuarios

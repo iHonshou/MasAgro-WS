@@ -15,25 +15,14 @@ class ctrlUsuarios {
         
         if ($resultado == null) {
             $_SESSION['error'] = 'Usuario o contraseña incorrectos, favor de verificar.';
-            echo "<script type='text/javascript'>
-                    alert('Usuario o contraseña incorrectos, favor de verificar.');
-                    window.location.href = 'http://localhost/papeleria-cliente/index.php';
-                  </script>";
-            exit();
+            return null;
         } else {
             $_SESSION['usuario'] = $rfc;
-            $_SESSION['rol'] = $resultado['tipo'];
-            if ($resultado['tipo'] == '1') {
-                header('Location: http://localhost/papeleria-cliente/inicio.php');
-                exit();
-            } else {
-                header('Location: http://localhost/papeleria-cliente/inicio.php');
-                exit();
-            }
+            $_SESSION['nombre'] = $resultado->nombres . ' ' . $resultado->apellidoP . ' ' . $resultado->apellidoM;
+            $_SESSION['rol'] = $resultado->idRol;
+            return $resultado;
         }
-        
     }
-
     function buscarUsuarios() {
         $mdlUsuario = new mdlUsuario();
         $rs = $mdlUsuario->consultarUsuarios();

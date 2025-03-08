@@ -27,11 +27,9 @@ switch ($requestMethod) {
         if ($objAnonimo == null) {
             $respuesta = json_encode($ctrlUsuarios->buscarUsuarios());
         } else {
-            $respuesta = json_encode(
-                $ctrlUsuarios->validarUsuario(
-                    $objAnonimo->rfc,
-                    $objAnonimo->contrasenia
-                )
+            $usuario = $ctrlUsuarios->validarUsuario(
+                $objAnonimo->rfc,
+                $objAnonimo->contrasenia
             );
         }
         break;
