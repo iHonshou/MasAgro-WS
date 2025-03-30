@@ -16,7 +16,7 @@ class Conexion {
         return $this->cnx;
     }
 
-    function desconectar() {
+    function desconectar(): void {
         $this->cnx = null;
     }
 

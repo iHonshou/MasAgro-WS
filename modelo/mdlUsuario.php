@@ -5,7 +5,7 @@ include_once 'popos/usuario.php';  // Incluye la clase de Usuario
 class mdlUsuario {
     function consultarUsuario($rfc, $contrasenia)
     {
-        $sql = 'SELECT * FROM usuarios WHERE rfc = :rfc AND contrasenia = :contrasenia;';
+        $sql = 'SELECT rfc FROM usuarios WHERE rfc = :rfc AND contrasenia = :contrasenia;';
         $cnx = new Conexion();
         $conexion = $cnx->conectar();
         $stmt = $conexion->prepare($sql);
@@ -16,20 +16,7 @@ class mdlUsuario {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $cnx->desconectar();
 
-        if ($row) {
-            return new Usuario(
-                $row['rfc'],
-                $row['contrasenia'],
-                $row['apellidoP'],
-                $row['apellidoM'],
-                $row['nombres'],
-                $row['razonSocial'],
-                $row['e_mail'],
-                $row['telefono'],
-                $row['idRol']
-            );
-        }
-        return null;
+        return $row;
     }
     
     // Función para consultar todos los usuarios
