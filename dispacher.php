@@ -55,3 +55,4 @@ header('Content-Type: application/json');
 echo $respuesta;
 
 die();
+?>

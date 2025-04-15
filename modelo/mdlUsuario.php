@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 include_once 'Conexion.php';  // Clase de conexión
 include_once 'popos/usuario.php';  // Incluye la clase de Usuario
 

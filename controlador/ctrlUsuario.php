@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 include_once './modelo/mdlUsuario.php';
 include_once './modelo/popos/usuario.php'; 
 
