@@ -1,6 +1,5 @@
 <?php
 
-session_start();
 
 include_once './controlador/ctrlUsuario.php';
 include_once './modelo/mdlUsuario.php';
