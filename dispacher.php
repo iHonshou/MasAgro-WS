@@ -24,7 +24,10 @@ $ctrlUsuarios = new ctrlUsuarios();
 
 switch ($requestMethod) {
     case 'GET':
-        if ($objAnonimo == null) {
+        if (isset($_GET['accion']) && $_GET['accion'] === 'getUsuarioActual') {
+            $respuesta = json_encode($ctrlUsuarios->obtenerUsuarioActual());
+        }
+        else if ($objAnonimo == null) {
             $respuesta = json_encode($ctrlUsuarios->buscarUsuarios());
         } else {
             $usuario = $ctrlUsuarios->validarUsuario(

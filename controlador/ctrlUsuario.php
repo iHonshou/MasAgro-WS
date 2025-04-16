@@ -22,6 +22,15 @@ class ctrlUsuarios {
         $rs = $mdlUsuario->consultarUsuarios();
         return $rs;
     }
+
+    function obtenerUsuarioActual() {
+        if (!isset($_SESSION['usuario'])) {
+            return null;
+        }
+        $rfc = $_SESSION['usuario'];
+        $mdlUsuario = new mdlUsuario();
+        return $mdlUsuario->consultarUsuarioPorRFC($rfc);
+    }
     
 }
 

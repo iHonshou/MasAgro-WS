@@ -55,6 +55,18 @@ class mdlUsuario {
 
         return $usuarios;
     }
+    
+    public function consultarUsuarioPorRFC($rfc) {
+        $conexion = new Conexion();
+        $db = $conexion->conectar();
+        $sql = "SELECT rfc, apellidoP, apellidoM, nombres, razonSocial, e_mail, telefono, idRol FROM usuarios WHERE rfc = :rfc";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':rfc', $rfc);
+        $stmt->execute();
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        $conexion->desconectar();
+        return $usuario;
+    }
 }
 
 ?>
