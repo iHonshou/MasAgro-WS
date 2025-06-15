@@ -8,7 +8,7 @@ include_once 'popos/usuario.php';  // Incluye la clase de Usuario
 class mdlUsuario {
     function consultarUsuario($rfc, $contrasenia)
     {
-        $sql = 'SELECT rfc FROM usuarios WHERE rfc = :rfc AND contrasenia = :contrasenia;';
+        $sql = 'SELECT rfc FROM Usuarios WHERE rfc = :rfc AND contrasenia = :contrasenia;';
         $cnx = new Conexion();
         $conexion = $cnx->conectar();
         $stmt = $conexion->prepare($sql);
@@ -20,6 +20,34 @@ class mdlUsuario {
         $cnx->desconectar();
 
         return $row;
+    }
+
+    function guardarUsuario($usuario)
+    {
+        $conexion = new Conexion();
+        $db = $conexion->conectar();
+
+        // Usamos el procedimiento almacenado para guardar el usuario
+        $query = "CALL guardarUsuario(:rfc, :contrasenia, :apellidoP, :apellidoM, :nombres, :razonSocial, :e_mail, :telefono, :idRol)";
+        $stmt = $db->prepare($query);
+        
+        // Asignar los valores del objeto Usuario a los parámetros del procedimiento almacenado
+        $stmt->bindValue(':rfc', $usuario->getRfc());
+        $stmt->bindValue(':contrasenia', $usuario->getContrasenia());
+        $stmt->bindValue(':apellidoP', $usuario->getApellidoP());
+        $stmt->bindValue(':apellidoM', $usuario->getApellidoM());
+        $stmt->bindValue(':nombres', $usuario->getNombres());
+        $stmt->bindValue(':razonSocial', $usuario->getRazonSocial());
+        $stmt->bindValue(':e_mail', $usuario->getEmail());
+        $stmt->bindValue(':telefono', $usuario->getTelefono());
+        $stmt->bindValue(':idRol', $usuario->getIdRol());
+
+        // Ejecutar la consulta
+        if ($stmt->execute()) {
+            return true; // Usuario guardado exitosamente
+        } else {
+            return false; // Error al guardar el usuario
+        }
     }
     
     // Función para consultar todos los usuarios
@@ -59,7 +87,7 @@ class mdlUsuario {
     public function consultarUsuarioPorRFC($rfc) {
         $conexion = new Conexion();
         $db = $conexion->conectar();
-        $sql = "SELECT rfc, apellidoP, apellidoM, nombres, razonSocial, e_mail, telefono, idRol FROM usuarios WHERE rfc = :rfc";
+        $sql = "SELECT rfc, apellidoP, apellidoM, nombres, razonSocial, e_mail, telefono, idRol FROM Usuarios WHERE rfc = :rfc";
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':rfc', $rfc);
         $stmt->execute();
