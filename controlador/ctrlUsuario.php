@@ -30,6 +30,12 @@ class ctrlUsuarios {
         $mdlUsuario = new mdlUsuario();
         return $mdlUsuario->consultarUsuarioPorRFC($rfc);
     }
+
+    function registrarUsuario($usuario){
+        $mdlUsuario = new mdlUsuario();
+        $rs= $mdlUsuario->guardarUsuario($usuario);
+        return $rs;
+    }
     
 }
 

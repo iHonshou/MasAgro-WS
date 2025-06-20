@@ -1,5 +1,7 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 
 include_once './controlador/ctrlUsuario.php';
 include_once './modelo/mdlUsuario.php';
@@ -23,10 +25,7 @@ $ctrlUsuarios = new ctrlUsuarios();
 
 switch ($requestMethod) {
     case 'GET':
-        if (isset($_GET['accion']) && $_GET['accion'] === 'getUsuarioActual') {
-            $respuesta = json_encode($ctrlUsuarios->obtenerUsuarioActual());
-        }
-        else if ($objAnonimo == null) {
+        if ($objAnonimo == null) {
             $respuesta = json_encode($ctrlUsuarios->buscarUsuarios());
         } else {
             $usuario = $ctrlUsuarios->validarUsuario(
@@ -35,13 +34,28 @@ switch ($requestMethod) {
             );
         }
         break;
-        case 'POST':
-            
-            break;
 
-        case 'PUT':
-           
-            break;
+    case 'POST':
+        
+        if ($objAnonimo !== null) {
+
+            $usuario = new usuario(
+                $objAnonimo->rfc,
+        $objAnonimo->contrasenia,
+          $objAnonimo->apellidoP,
+          $objAnonimo->apellidoM,
+            $objAnonimo->nombres,
+        $objAnonimo->razonSocial,
+              $objAnonimo->e_mail,
+           $objAnonimo->telefono,
+              $objAnonimo->idRol
+            );
+            
+            $resultado = $ctrlUsuarios->registrarUsuario($usuario);
+
+        }
+
+        break;
     default:
         $estado = 488;
         break;
@@ -55,6 +69,4 @@ header('Access-Control-Allow-Methods: *');
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 echo $respuesta;
-
 die();
-?>

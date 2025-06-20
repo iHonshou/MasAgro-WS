@@ -23,33 +23,28 @@ class mdlUsuario {
     }
 
     function guardarUsuario($usuario)
-    {
-        $conexion = new Conexion();
-        $db = $conexion->conectar();
+{
+    $conexion = new Conexion();
+    $db = $conexion->conectar();
 
-        // Usamos el procedimiento almacenado para guardar el usuario
-        $query = "CALL guardarUsuario(:rfc, :contrasenia, :apellidoP, :apellidoM, :nombres, :razonSocial, :e_mail, :telefono, :idRol)";
-        $stmt = $db->prepare($query);
-        
-        // Asignar los valores del objeto Usuario a los parámetros del procedimiento almacenado
-        $stmt->bindValue(':rfc', $usuario->getRfc());
-        $stmt->bindValue(':contrasenia', $usuario->getContrasenia());
-        $stmt->bindValue(':apellidoP', $usuario->getApellidoP());
-        $stmt->bindValue(':apellidoM', $usuario->getApellidoM());
-        $stmt->bindValue(':nombres', $usuario->getNombres());
-        $stmt->bindValue(':razonSocial', $usuario->getRazonSocial());
-        $stmt->bindValue(':e_mail', $usuario->getEmail());
-        $stmt->bindValue(':telefono', $usuario->getTelefono());
-        $stmt->bindValue(':idRol', $usuario->getIdRol());
+    // Usamos el procedimiento almacenado para guardar el usuario
+    $query = "CALL registrarUsuario(:rfc, :contrasenia, :apellidoP, :apellidoM, :nombres, :razonSocial, :e_mail, :telefono, :idRol)";
+    $stmt = $db->prepare($query);
 
-        // Ejecutar la consulta
-        if ($stmt->execute()) {
-            return true; // Usuario guardado exitosamente
-        } else {
-            return false; // Error al guardar el usuario
-        }
-    }
-    
+    // Asignar los valores directamente desde las propiedades públicas del objeto
+    $stmt->bindValue(':rfc', $usuario->rfc);
+    $stmt->bindValue(':contrasenia', $usuario->contrasenia);
+    $stmt->bindValue(':apellidoP', $usuario->apellidoP);
+    $stmt->bindValue(':apellidoM', $usuario->apellidoM);
+    $stmt->bindValue(':nombres', $usuario->nombres);
+    $stmt->bindValue(':razonSocial', $usuario->razonSocial);
+    $stmt->bindValue(':e_mail', $usuario->email);
+    $stmt->bindValue(':telefono', $usuario->telefono);
+    $stmt->bindValue(':idRol', $usuario->idRol);
+
+    // Ejecutar la consulta
+    return $stmt->execute(); // true si se ejecuta correctamente, false si falla
+}
     // Función para consultar todos los usuarios
     public function consultarUsuarios() {
         $conexion = new Conexion();
